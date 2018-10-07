@@ -1,0 +1,102 @@
+swagger: "2.0"
+info:
+  description: API documentation
+  version: "0.1"
+  title: The good tube
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+
+basePath: "/"
+
+# Paths supported by the server application
+paths:
+  /version:
+    get:
+      operationId: "youtube-dl.version.version"
+      tags:
+        - "Version"
+      summary: "Version of API and youtube-dl"
+      description: "Get the version of this API and the youtube-dl embeded component"
+      responses:
+        200:
+          description: "Successful read version operation"
+          schema:
+            type: "object"
+            properties:
+              api:
+                type: "string"
+              youtube-dl:
+                type: "string"
+  /supported_sites:
+    get:
+      operationId: "youtube-dl.supported_sites.supported_sites"
+      tags:
+        - "Supported sites"
+      summary: "List of supported sites"
+      description: "Get the list of supported sites for extraction"
+      responses:
+        200:
+          description: "Successful read list of supported sites"
+          schema:
+            type: "array"
+            items:
+              type: "string"
+  /video_information:
+    get:
+      operationId: "youtube-dl.video_information.video_information"
+      tags:
+        - "Video"
+        - "Information"
+      summary: "Video information"
+      description: "List all information about a video (incl. available formats)"
+      parameters:
+        - in: "query"
+          name: "url"
+          required: true
+          type: "string"
+          description: "URL of the video you request information"
+      responses:
+        200:
+          description: "Successful retrieve video information"
+          schema:
+            type: "object"
+  /video_download:
+    post:
+      operationId: "youtube-dl.video_download.video_download"
+      tags:
+        - "Video"
+        - "Download"
+      summary: "Video download"
+      description: "Download a video in desired format from any available site"
+      parameters:
+        - in: "body"
+          name: "data"
+          description: "Download parameters"
+          schema:
+            type: "object"
+            required:
+              - url
+            properties:
+              url:
+                type: "string"
+              options:
+                type: "object"
+      responses:
+        201:
+          description: "Download started"
+  /downloads_list:
+    get:
+      operationId: "youtube-dl.downloads_list.downloads_list"
+      tags:
+        - "Download"
+      summary: "List of downloads"
+      description: "List of current downloads"
+      responses:
+        200:
+          description: "Successful read list of downloads"
+          schema:
+            type: "array"
+            items:
+              type: "object"
