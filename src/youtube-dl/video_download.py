@@ -19,6 +19,7 @@ def video_download(data):
             config.get_config()['download_dir']
             or sys.path[0] + '/downloads'
         ) + '/%(title)s-%(id)s.%(ext)s'
+    data['progress_hooks'] = [progress_hook]
     thread = threading.Thread(target=video_download_thread, args=(data,))
     thread.start()
     thread.name = 'dl-' + str(thread.ident)
