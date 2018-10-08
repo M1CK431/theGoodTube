@@ -12,6 +12,33 @@ basePath: "/"
 
 # Paths supported by the server application
 paths:
+  /config:
+    get:
+      operationId: "config.get_config"
+      tags:
+        - "Configuration"
+      summary: "Get configuration"
+      description: "Get configuration"
+      responses:
+        200:
+          description: "Successful read configuration"
+          schema:
+            type: "object"
+    put:
+      operationId: "config.update_config"
+      tags:
+        - "Configuration"
+      summary: "Update configuration"
+      description: "Update configuration"
+      parameters:
+        - in: "body"
+          name: "config"
+          description: "Configuration parameters to update"
+          schema:
+            type: "object"
+      responses:
+        200:
+          description: "Configuration updated"
   /version:
     get:
       operationId: "youtube-dl.version.version"

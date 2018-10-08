@@ -1,6 +1,8 @@
 from __future__ import unicode_literals
 from youtube_dl import YoutubeDL as ytdl
 import threading
+import sys
+import config
 
 
 def progress_hook(progress):
@@ -12,7 +14,11 @@ def video_download_thread(data):
 
 
 def video_download(data):
-    data['progress_hook'] = progress_hook
+    if not hasattr(data, 'outtmpl'):
+        data['outtmpl'] = (
+            config.get_config()['download_dir']
+            or sys.path[0] + '/downloads'
+        ) + '/%(title)s-%(id)s.%(ext)s'
     thread = threading.Thread(target=video_download_thread, args=(data,))
     thread.start()
     thread.name = 'dl-' + str(thread.ident)
