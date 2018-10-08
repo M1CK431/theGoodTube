@@ -1,18 +1,46 @@
 # The good tube API
+This product allow to use youtube-dl through a REST API.
 
-## Tuto src
-https://realpython.com/flask-connexion-rest-api/
+The following features will be supported in v1.0:
+* list supported sites (all sites supported by youtube-dl)
+* display product version (the API itself and youtube-dl)
+* get video informations
+* download one or more videos
+* list donwloading video(s) with details (title, progression, size, etc...)
+* convert a video in any format supported by FFMPEG (see youtube-dl documentation)
+* set default configuration options like download dir, default quality, etc...
 
-## create new python isolate env
+## How to setup developement environment
+/!\ You need at least Python 3.6 installed on your computer
+
+### Create new python isolate environment
 ```bash
-python3 -m venv env
+python -m venv env
 source env/bin/activate
 pip install --upgrade pip
-pip install flask connexion
 ```
 
-## start the server
+### Install requirements
+```bash
+pip install -r requirements.txt
+```
+
+### Start the server
+```bash
 python server.py
+```
+
+## How to update requirements
+
+I want to always use upstream third party libraries so I need to only keep package name in my requirements.txt file.
+```bash
+pip freeze | grep -o '^\([[:alnum:]]\|-\)*' > requirements.txt
+```
+
+## Special thanks
+The following links help me a lot to create this product:
+* https://realpython.com/flask-connexion-rest-api/
+
 
 ## License
 ![Creative Commons License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)  
