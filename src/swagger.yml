@@ -108,8 +108,6 @@ paths:
             properties:
               url:
                 type: "string"
-              options:
-                type: "object"
       responses:
         201:
           description: "Download started"
