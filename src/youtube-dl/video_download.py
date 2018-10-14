@@ -14,11 +14,9 @@ def video_download_thread(data):
 
 
 def video_download(data):
+    data = {**config.get_config()['youtube-dl'], **data}
     if not hasattr(data, 'outtmpl'):
-        data['outtmpl'] = (
-            config.get_config()['download_dir']
-            or sys.path[0] + '/downloads'
-        ) + '/%(title)s-%(id)s.%(ext)s'
+        data['outtmpl'] = sys.path[0] + '/downloads/%(title)s-%(id)s.%(ext)s'
     data['progress_hooks'] = [progress_hook]
     thread = threading.Thread(target=video_download_thread, args=(data,))
     thread.start()
