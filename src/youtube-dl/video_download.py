@@ -50,5 +50,4 @@ def video_download(data):
     data['writeinfojson'] = True
     thread = threading.Thread(target=video_download_thread, args=(data,))
     thread.start()
-    thread.name = 'dl-' + str(thread.ident)
-    return 'Download started (name: ' + thread.name + ')'
+    return 'Download started'
