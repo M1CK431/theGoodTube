@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 from youtube_dl import YoutubeDL as ytdl
-import threading
+from multiprocessing import Process
 import sys
 from os import path, remove
 import config
@@ -32,7 +32,7 @@ def progress_hook(progress):
     update_progress(info_filename, progress)
 
 
-def video_download_thread(data):
+def download_thread(data):
     ytdl(data).download([data['url']])
     with open(sys.path[0] + '/state.json', 'r') as file:
         state = json.load(file)
@@ -42,12 +42,12 @@ def video_download_thread(data):
             break
 
 
-def video_download(data):
+def download(data):
     data = {**config.get_config()['youtube-dl'], **data}
     if not hasattr(data, 'outtmpl'):
         data['outtmpl'] = sys.path[0] + '/downloads/%(title)s-%(id)s.%(ext)s'
     data['progress_hooks'] = [progress_hook]
     data['writeinfojson'] = True
-    thread = threading.Thread(target=video_download_thread, args=(data,))
+    thread = Process(target=download_thread, name=data['url'], args=(data,))
     thread.start()
     return 'Download started'

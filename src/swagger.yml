@@ -91,7 +91,7 @@ paths:
             type: "object"
   /video_download:
     post:
-      operationId: "youtube-dl.video_download.video_download"
+      operationId: "youtube-dl.video_download.download"
       tags:
         - "Video"
         - "Download"
@@ -111,9 +111,9 @@ paths:
       responses:
         201:
           description: "Download started"
-  /downloads_list:
+  /downloads:
     get:
-      operationId: "youtube-dl.downloads_list.downloads_list"
+      operationId: "youtube-dl.downloads.list"
       tags:
         - "Download"
       summary: "List of downloads"
@@ -125,3 +125,19 @@ paths:
             type: "array"
             items:
               type: "object"
+  /downloads/stop:
+    delete:
+      operationId: "youtube-dl.downloads.stop"
+      tags:
+        - "Download"
+      summary: "Stop a download"
+      description: "Stop a download from URL"
+      parameters:
+        - in: "query"
+          name: "url"
+          description: "Download URL"
+          type: "string"
+          required: true
+      responses:
+        200:
+          description: "Successful stop download"
