@@ -48,6 +48,6 @@ def download(data):
         data['outtmpl'] = sys.path[0] + '/downloads/%(title)s-%(id)s.%(ext)s'
     data['progress_hooks'] = [progress_hook]
     data['writeinfojson'] = True
-    thread = Process(target=download_thread, name=data['url'], args=(data,))
-    thread.start()
+    process = Process(target=download_thread, name=data['url'], args=(data,))
+    process.start()
     return 'Download started'

@@ -43,7 +43,7 @@ paths:
     get:
       operationId: "youtube-dl.version.version"
       tags:
-        - "Version"
+        - "Information"
       summary: "Version of API and youtube-dl"
       description: "Get the version of this API and the youtube-dl embeded component"
       responses:
@@ -60,7 +60,7 @@ paths:
     get:
       operationId: "youtube-dl.supported_sites.supported_sites"
       tags:
-        - "Supported sites"
+        - "Information"
       summary: "List of supported sites"
       description: "Get the list of supported sites for extraction"
       responses:
@@ -74,7 +74,6 @@ paths:
     get:
       operationId: "youtube-dl.video_information.video_information"
       tags:
-        - "Video"
         - "Information"
       summary: "Video information"
       description: "List all information about a video (incl. available formats)"
@@ -93,8 +92,7 @@ paths:
     post:
       operationId: "youtube-dl.video_download.download"
       tags:
-        - "Video"
-        - "Download"
+        - "Downloads"
       summary: "Video download"
       description: "Download a video in desired format from any available site"
       parameters:
@@ -115,7 +113,7 @@ paths:
     get:
       operationId: "youtube-dl.downloads.list"
       tags:
-        - "Download"
+        - "Downloads"
       summary: "List of downloads"
       description: "List of current downloads"
       responses:
@@ -126,10 +124,10 @@ paths:
             items:
               type: "object"
   /downloads/stop:
-    delete:
+    put:
       operationId: "youtube-dl.downloads.stop"
       tags:
-        - "Download"
+        - "Downloads"
       summary: "Stop a download"
       description: "Stop a download from URL"
       parameters:
@@ -141,3 +139,45 @@ paths:
       responses:
         200:
           description: "Successful stop download"
+  /downloads/delete:
+    delete:
+      operationId: "youtube-dl.downloads.delete"
+      tags:
+        - "Downloads"
+      summary: "Delete a download"
+      description: "Delete a download from URL regardless its status. This also delete all related files."
+      parameters:
+        - in: "query"
+          name: "url"
+          description: "Download URL"
+          type: "string"
+          required: true
+      responses:
+        200:
+          description: "Successful delete download"
+  /downloads/clear:
+    delete:
+      operationId: "youtube-dl.downloads.clear"
+      tags:
+        - "Downloads"
+      summary: "Clear a download"
+      description: "Clear a finished download from URL."
+      parameters:
+        - in: "query"
+          name: "url"
+          description: "Download URL"
+          type: "string"
+          required: true
+      responses:
+        200:
+          description: "Successful clear download"
+  /downloads/clear_all:
+    delete:
+      operationId: "youtube-dl.downloads.clear_all"
+      tags:
+        - "Downloads"
+      summary: "Clear all downloads"
+      description: "Clear all finished downloads."
+      responses:
+        200:
+          description: "Successful clear downloads"
