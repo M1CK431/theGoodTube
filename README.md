@@ -36,6 +36,10 @@ I want to always use upstream third party libraries so I need to only keep packa
 ```bash
 pip freeze | grep -o '^\([[:alnum:]]\|-\)*' > requirements.txt
 ```
+Then to update all packages to the latest version:
+```bash
+pip install --upgrade -r requirements.txt
+```
 
 ## Special thanks
 The following links help me a lot to create this product:
