@@ -2,9 +2,10 @@ certifi
 chardet
 Click
 clickclick
-connexion
+connexion[swagger-ui]
 flake8
 Flask
+Flask-SocketIO
 idna
 inflection
 itsdangerous
@@ -14,6 +15,8 @@ MarkupSafe
 mccabe
 pycodestyle
 pyflakes
+python-engineio
+python-socketio
 PyYAML
 requests
 six
