@@ -5,6 +5,13 @@ import sys
 from os import path, remove
 import config
 import json
+from flask import current_app
+from flask_socketio import SocketIO
+
+
+def socketio_emit(name, message):
+    socketio = SocketIO(current_app._get_current_object())
+    socketio.emit(name, message)
 
 
 def update_progress(filename, progress):
@@ -21,6 +28,7 @@ def update_progress(filename, progress):
             state.append(info)
     with open(sys.path[0] + '/state.json', 'w') as file:
         json.dump(state, file, indent="\t")
+    socketio_emit('progress', state)
 
 
 def progress_hook(progress):
@@ -50,4 +58,5 @@ def download(data):
     data['writeinfojson'] = True
     process = Process(target=download_thread, name=data['url'], args=(data,))
     process.start()
+    socketio_emit('download', {'state': 'started', **data})
     return 'Download started'
