@@ -1,0 +1,15 @@
+<html>
+  <head>
+    <title>SocketIO test</title>
+    <script src="socketiojs"></script>
+  </head>
+
+  <body>
+    <script>
+      var socket = io('http://localhost:5000');
+      socket.on('download', function(data) { console.log("download", data); });
+      socket.on('progress', data => console.log("progress", data));
+      socket.on('connection', data => console.log("connect", data));
+    </script>
+  </body>
+</html>
