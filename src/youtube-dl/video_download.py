@@ -5,12 +5,13 @@ import sys
 from os import path, remove
 import config
 import json
-from flask import current_app
-from flask_socketio import SocketIO
+# from flask import current_app
+# from flask_socketio import SocketIO
 
 
 def socketio_emit(name, message):
-    socketio = SocketIO(current_app._get_current_object())
+    # socketio = SocketIO(current_app._get_current_object())
+    from server import socketio
     socketio.emit(name, message)
 
 
