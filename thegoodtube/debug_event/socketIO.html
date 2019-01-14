@@ -9,9 +9,7 @@
       var socket = io('http://localhost:5000');
       socket.on('download', function(data) { console.log("download", data); });
       socket.on('progress', data => console.log("progress", data));
-      socket.on('connection', data => console.log("connect", data));
-      socket.on('alive', data => console.log("alive", data));
-      socket.on('version', data => console.log("version", data));
+      socket.on('debug', data => console.log("debug", data));
       console.log('started')
     </script>
   </body>
