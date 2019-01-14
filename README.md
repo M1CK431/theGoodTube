@@ -11,7 +11,7 @@ The following features will be supported in v1.0:
 * set default configuration options like download dir, default quality, etc...
 
 ## How to setup developement environment
-/!\ You need at least Python 3.6 installed on your computer
+/!\ You need at least Python 3.7 installed on your computer
 
 ### Create new python isolate environment
 ```bash
@@ -40,11 +40,6 @@ Then to update all packages to the latest version:
 ```bash
 pip install --upgrade -r requirements.txt
 ```
-
-## Special thanks
-The following links help me a lot to create this product:
-* https://realpython.com/flask-connexion-rest-api/
-
 
 ## License
 ![Creative Commons License](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)  
