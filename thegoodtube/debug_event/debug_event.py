@@ -19,5 +19,5 @@ def socketiojsclient():
 def event():
     from .. import socketio
     print("socketio in socketio.py:", socketio)
-    socketio.emit('alive', {'alive': True})
+    socketio.emit('debug', {'alive': True})
     return ''
