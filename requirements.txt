@@ -1,6 +1,8 @@
 Click
+entrypoints
 flake8
 Flask
+Flask-Cors
 Flask-SocketIO
 itsdangerous
 Jinja2

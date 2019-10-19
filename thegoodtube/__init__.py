@@ -1,9 +1,11 @@
 from flask import Flask, jsonify
+from flask_cors import CORS
 from flask_socketio import SocketIO
 
 app = Flask(__name__)
+CORS(app)
 app.config.from_object('config')
-socketio = SocketIO(app, logger=True)
+socketio = SocketIO(app, cors_allowed_origins="*", logger=True)
 
 
 @app.route("/", methods=["GET"])
