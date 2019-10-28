@@ -15,7 +15,8 @@ def add_download(download_params):
         **{
             'outtmpl': download_dir + '/%(title)s-%(id)s.%(ext)s',
             'progress_hooks': [progress_hook],
-            'writeinfojson': True
+            'writeinfojson': True,
+            'quiet': True
         }
     }
     process = Process(
