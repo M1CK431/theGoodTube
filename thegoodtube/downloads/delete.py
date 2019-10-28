@@ -4,6 +4,7 @@ from ..events_queue import events_queue
 from flask import Response, jsonify
 from glob import glob
 from os import path, remove
+import re
 
 
 def delete_download(id):
@@ -12,7 +13,11 @@ def delete_download(id):
         if download["progress"]["status"] == "downloading":
             stop_download(download)
         try:
-            for file in glob(path.splitext(download["_filename"])[0] + '.*'):
+            escaped_filename = re.sub(
+                '([\[\]\?\*])', r'[\1]',
+                path.splitext(download["_filename"])[0]
+            )
+            for file in glob(escaped_filename + '.*'):
                 remove(file)
         except Exception as error:
             response = jsonify({
