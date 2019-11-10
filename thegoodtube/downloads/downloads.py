@@ -65,9 +65,7 @@ def remove(id):
 
 
 def remove_finished():
-    for index, download in enumerate(downloads):
-        if download["progress"]["status"] == "finished":
-            downloads.pop(index)
+    downloads[:] = [download for download in downloads if download["progress"]["status"] != "finished"]
 
 
 # Handle download events from download processes
