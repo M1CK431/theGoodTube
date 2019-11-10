@@ -2,6 +2,7 @@ from flask import Flask, jsonify
 from flask_cors import CORS
 from flask_socketio import SocketIO
 
+
 app = Flask(__name__)
 CORS(app)
 app.config.from_object('config')
@@ -18,7 +19,6 @@ def root():
     })
 
 
-from .downloads import downloads # noqa
-from . import events_queue # noqa
+from . import downloads # noqa
 # Only used for socketio test purpose
-from .debug_event import debug_event # noqa
+#from .debug_event import debug_event # noqa

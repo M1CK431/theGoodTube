@@ -1,24 +1,25 @@
-from .helpers import get_downloads, remove_download
+from .downloads import get, remove
 from .progress import stop_download
-from ..events_queue import events_queue
+from .. import socketio
 from flask import Response, jsonify
 from glob import glob
-from os import path, remove
+from os import path, remove as remove_file
 import re
 
 
 def delete_download(id):
-    download = get_downloads(id)
+    download = get(id)
     if download:
         if download["progress"]["status"] == "downloading":
             stop_download(download)
+
+        escaped_filename = re.sub(
+            '([\[\]\?\*])', r'[\1]',
+            path.splitext(download["_filename"])[0]
+        )
         try:
-            escaped_filename = re.sub(
-                '([\[\]\?\*])', r'[\1]',
-                path.splitext(download["_filename"])[0]
-            )
             for file in glob(escaped_filename + '.*'):
-                remove(file)
+                remove_file(file)
         except Exception as error:
             response = jsonify({
                 "error": "Unable to delete file(s) of "
@@ -26,7 +27,9 @@ def delete_download(id):
             })
             response.status_code = 500
             return response
-        events_queue.put({"name": "delete", "payload": download})
-        return Response(status=remove_download(download["id"], True))
+
+        remove(download["id"])
+        socketio.emit("delete", download)
+        return Response(status=204)
     else:
         return Response(status=404)

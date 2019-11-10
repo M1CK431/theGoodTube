@@ -1,12 +1,9 @@
-from .helpers import update_download, append_download
-from .. import app
-from ..events_queue import events_queue
 from flask import Response
 from youtube_dl import YoutubeDL as ytdl
 from multiprocessing import Process
-from os import environ, path, remove
-import json
-
+from datetime import datetime, timedelta
+from .downloads import download_events_queue
+from os import environ
 
 def add_download(download_params):
     download_dir = environ['HOME'] + '/downloads'
@@ -20,7 +17,7 @@ def add_download(download_params):
         }
     }
     process = Process(
-        target=download_thread,
+        target=download_process,
         name=download_params['url'],
         args=(download_params,)
     )
@@ -29,28 +26,18 @@ def add_download(download_params):
 
 
 def progress_hook(progress):
-    info_file_basename = path.splitext(progress['filename'])[0]
-    info_filename = info_file_basename + '.info.json'
-    if not path.isfile(info_filename):
-        info_file_basename = path.splitext(info_file_basename)[0]
-        info_filename = info_file_basename + '.info.json'
-    update_progress(info_filename, progress)
+    global update_interval, last_update
+    if (
+        progress["status"] != "downloading" or
+        datetime.now() > last_update + update_interval
+    ):
+        download_events_queue.put({"name": "progress", "payload": progress})
+        last_update = datetime.now()
 
 
-def download_thread(download_params):
+def download_process(download_params):
+    global update_interval, last_update
+    update_interval = timedelta(milliseconds=500)
+    last_update = datetime.now()
     ytdl(download_params).download([download_params['url']])
-    with open(app.root_path + '/state.json', 'r') as file:
-        state = json.load(file)
-    for index, item in enumerate(state):
-        if item["webpage_url"] == download_params["url"]:
-            remove(path.splitext(item["_filename"])[0] + '.info.json')
-            break
-
-
-def update_progress(filename, progress):
-    with open(filename, 'r') as file:
-        download = json.load(file)
-    download["progress"] = progress
-    events_queue.put({"name": "progress", "payload": download})
-    if not update_download(download):
-        append_download(download)
+    download_events_queue.put({"name": "finished", "payload": download_params})
