@@ -20,5 +20,3 @@ def root():
 
 
 from . import downloads # noqa
-# Only used for socketio test purpose
-#from .debug_event import debug_event # noqa
